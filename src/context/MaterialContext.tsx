@@ -5,7 +5,6 @@ import {
   EquirectangularReflectionMapping,
   Material,
   MeshMatcapMaterial,
-  MeshNormalMaterial,
   MeshPhysicalMaterial
 } from 'three'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'

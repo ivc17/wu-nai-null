@@ -14,7 +14,7 @@ import { ReactComponent as Outline } from '../../assets/svg/ivc17.svg'
 
 import useTexture from '../../hooks/useTexture'
 import {
-  Clock,
+  // Clock,
   DoubleSide,
   Mesh,
   MeshBasicMaterial,
@@ -77,7 +77,7 @@ const renderSVG = (
       )
     }
 
-    const randomSpline = new THREE.CatmullRomCurve3(randomPoints)
+    // const randomSpline = new THREE.CatmullRomCurve3(randomPoints)
 
     shapes.forEach((shape) => {
       const meshGeometry = new THREE.ExtrudeGeometry(shape, {
@@ -256,7 +256,7 @@ function SingleGlyph() {
     object.scale.set(-1.5, -1.5, 1.5)
     object.position.set(20, 40, 0)
     glyphMesh.current = object
-    let clock = new Clock()
+    // let clock = new Clock()
     const animate = () => {
       // object.rotation.set(
       //   object.rotation.x + Math.sin(clock.elapsedTime) / 500,
