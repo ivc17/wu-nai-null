@@ -12,7 +12,7 @@ function App() {
       <Layout />
 
       <MaterialProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
           <TransitionProvider>
             <Routes>
               <Route path="/characters/:id" element={<SingleGlyph />} />
