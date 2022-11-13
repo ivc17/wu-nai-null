@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/crypto-study-log/static/css/main.0b9705c4.css",
-    "main.js": "/crypto-study-log/static/js/main.18c77b08.js",
-    "static/js/787.26aa0d3e.chunk.js": "/crypto-study-log/static/js/787.26aa0d3e.chunk.js",
-    "static/media/Bentball.png": "/crypto-study-log/static/media/Bentball.38c4a5184c74be01b74c.png",
-    "static/media/red.png": "/crypto-study-log/static/media/red.1ecfeb8542053a6ec981.png",
-    "static/media/frame.jpeg": "/crypto-study-log/static/media/frame.bb75ce2bbedfa59b3d08.jpeg",
-    "static/media/roughNormal.jpeg": "/crypto-study-log/static/media/roughNormal.20ab689bd55667cfc262.jpeg",
-    "static/media/ivc17.svg": "/crypto-study-log/static/media/ivc17.6a797861bb5cc47e4647e0ed86ba546f.svg",
-    "static/media/twist.svg": "/crypto-study-log/static/media/twist.3facb84d0a32480d8f751a4d0f06272e.svg",
-    "static/media/seed.svg": "/crypto-study-log/static/media/seed.5c11594751553a14449857c608db59d3.svg",
-    "static/media/straight.svg": "/crypto-study-log/static/media/straight.9edf4cc790b987f313d914418fb2fd5a.svg",
-    "static/media/ink.svg": "/crypto-study-log/static/media/ink.c0dd8dc64ddfcf94b8fa16ea9cc26613.svg",
-    "static/media/slime.svg": "/crypto-study-log/static/media/slime.70598760699aa25b0e688ba2b760c2d4.svg",
-    "static/media/icon.svg": "/crypto-study-log/static/media/icon.df36b393c5aec177ad5d92e5cf9a15e0.svg",
-    "index.html": "/crypto-study-log/index.html",
-    "main.0b9705c4.css.map": "/crypto-study-log/static/css/main.0b9705c4.css.map",
-    "main.18c77b08.js.map": "/crypto-study-log/static/js/main.18c77b08.js.map",
-    "787.26aa0d3e.chunk.js.map": "/crypto-study-log/static/js/787.26aa0d3e.chunk.js.map"
+    "main.css": "/wu-nai-null/static/css/main.0b9705c4.css",
+    "main.js": "/wu-nai-null/static/js/main.0b806a1b.js",
+    "static/js/787.26aa0d3e.chunk.js": "/wu-nai-null/static/js/787.26aa0d3e.chunk.js",
+    "static/media/Bentball.png": "/wu-nai-null/static/media/Bentball.38c4a5184c74be01b74c.png",
+    "static/media/red.png": "/wu-nai-null/static/media/red.1ecfeb8542053a6ec981.png",
+    "static/media/frame.jpeg": "/wu-nai-null/static/media/frame.bb75ce2bbedfa59b3d08.jpeg",
+    "static/media/roughNormal.jpeg": "/wu-nai-null/static/media/roughNormal.20ab689bd55667cfc262.jpeg",
+    "static/media/ivc17.svg": "/wu-nai-null/static/media/ivc17.6a797861bb5cc47e4647e0ed86ba546f.svg",
+    "static/media/twist.svg": "/wu-nai-null/static/media/twist.3facb84d0a32480d8f751a4d0f06272e.svg",
+    "static/media/seed.svg": "/wu-nai-null/static/media/seed.5c11594751553a14449857c608db59d3.svg",
+    "static/media/straight.svg": "/wu-nai-null/static/media/straight.9edf4cc790b987f313d914418fb2fd5a.svg",
+    "static/media/ink.svg": "/wu-nai-null/static/media/ink.c0dd8dc64ddfcf94b8fa16ea9cc26613.svg",
+    "static/media/slime.svg": "/wu-nai-null/static/media/slime.70598760699aa25b0e688ba2b760c2d4.svg",
+    "static/media/icon.svg": "/wu-nai-null/static/media/icon.df36b393c5aec177ad5d92e5cf9a15e0.svg",
+    "index.html": "/wu-nai-null/index.html",
+    "main.0b9705c4.css.map": "/wu-nai-null/static/css/main.0b9705c4.css.map",
+    "main.0b806a1b.js.map": "/wu-nai-null/static/js/main.0b806a1b.js.map",
+    "787.26aa0d3e.chunk.js.map": "/wu-nai-null/static/js/787.26aa0d3e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0b9705c4.css",
-    "static/js/main.18c77b08.js"
+    "static/js/main.0b806a1b.js"
   ]
 }
