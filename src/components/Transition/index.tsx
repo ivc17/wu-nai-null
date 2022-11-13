@@ -46,9 +46,10 @@ export default function Transition({
       gridTemplateColumns={{
         xs: `repeat(auto-fill, ${100 / smCount}%)`,
         sm: `repeat(auto-fill, ${100 / lgCount}%)`,
-        xl: `repeat(auto-fill, ${100 / xlCount}%)`
+        lg: `repeat(auto-fill, ${100 / xlCount}%)`
       }}
       sx={{
+        alignContent: 'flex-start',
         pointerEvents: 'none',
         // background: theme.palette.background.default,
         '& svg': {
@@ -72,6 +73,9 @@ export default function Transition({
                 <Box
                   key={'' + i + j}
                   sx={{
+                    '& svg': {
+                      fill: '#ff0000'
+                    },
                     background: '#ffffff',
                     height: 'max-content',
                     opacity: 1,

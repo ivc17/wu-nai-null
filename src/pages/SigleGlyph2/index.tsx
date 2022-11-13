@@ -9,7 +9,8 @@ import { GlyphsList } from '../../assets/glyphsList'
 import { withTransition } from '../../components/WithTransition'
 import { useTransition } from '../../context/TransitionContext'
 import ReactDOMServer from 'react-dom/server'
-import textBgURL from '../../assets/img/red.png'
+import textBgURL from '../../assets/img/textbg2.png'
+
 import { ReactComponent as Outline } from '../../assets/svg/ivc17.svg'
 
 import useTexture from '../../hooks/useTexture'
@@ -18,6 +19,9 @@ import {
   DoubleSide,
   Mesh,
   MeshBasicMaterial,
+  MeshNormalMaterial,
+  MeshPhongMaterial,
+  MeshPhysicalMaterial,
   PlaneGeometry,
   Vector3
 } from 'three'
@@ -25,6 +29,7 @@ import useFont from '../../hooks/useFont'
 import IndexCircle from 'components/IndexCircle'
 import useBreakpoint from 'hooks/useBreakpoints'
 import { useMaterial } from 'context/MaterialContext'
+const color = '#ffffff'
 
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -41,7 +46,7 @@ const fillMaterial = new THREE.MeshPhysicalMaterial({
   opacity: 0
 })
 const stokeMaterial = new THREE.LineBasicMaterial({
-  color: 'red'
+  color: '#ffffff'
 })
 const hdrEquirect = new RGBELoader().load(
   '/royal_esplanade_1k.hdr',
@@ -142,9 +147,12 @@ function SingleGlyph() {
   const glyphMesh = useRef<THREE.Group>()
   const { wrappedNavigate } = useTransition()
   const { id } = useParams()
-  const font = useFont('NOTHING NULL')
+  const font = useFont('VOID EMPTY')
+  const font4 = useFont('NOTHING NULL')
   const font2 = useFont('VOID EMPTY')
-  const { glassMaterial, matcapMaterial } = useMaterial()
+  const font3 = useFont('VOID EMPTY')
+
+  const { glassMaterial, matcapMaterial, frameMaterial } = useMaterial()
   const [material, setMaterial] = useState(glassMaterial)
 
   const isDownSm = useBreakpoint('sm')
@@ -177,11 +185,11 @@ function SingleGlyph() {
     camera.position.y = 0
     controls.enablePan = true
 
-    controls.minPolarAngle = 1.5507750139181867 // 1.5 * Math.PI / 12;
-    controls.maxPolarAngle = 1.5507750139181867 // 1.5 * Math.PI / 3;
+    // controls.minPolarAngle = 1.5507750139181867 // 1.5 * Math.PI / 12;
+    // controls.maxPolarAngle = 1.5507750139181867 // 1.5 * Math.PI / 3;
 
-    controls.minAzimuthAngle = 2.841592653589793
-    controls.maxAzimuthAngle = 3.541592653589793
+    // controls.minAzimuthAngle = 2.841592653589793
+    // controls.maxAzimuthAngle = 3.541592653589793
 
     controls.enableDamping = true
     // controls.autoRotate = true
@@ -206,13 +214,17 @@ function SingleGlyph() {
   }, [])
 
   useEffect(() => {
-    if (font && font2) {
-      font.position.set(0, 250, 800)
-      scene.add(font)
-      font2.position.set(0, -380, 800)
-      scene.add(font2)
+    if (font && font2 && font3 && font4) {
+      // font.position.set(0, 250, 900)
+      // scene.add(font)
+      // font2.position.set(0, -280, 900)
+      // scene.add(font2)
+      // font3.position.set(0, 0, 900)
+      // scene.add(font3)
+      // font4.position.set(0, 150, 900)
+      // scene.add(font4)
     }
-  }, [font, font2])
+  }, [font, font2, font3, font4])
 
   useEffect(() => {
     if (isDownSm) {
@@ -223,26 +235,21 @@ function SingleGlyph() {
   }, [isDownSm])
 
   useEffect(() => {
-    if (textbg) {
-      const plane = new PlaneGeometry(200, 100, 1)
-      const material = new MeshBasicMaterial({
-        map: textbg,
-        side: DoubleSide,
-        // alphaMap: textbg,
-        alphaToCoverage: false
-      })
-      material.transparent = false
-      const mesh = new Mesh(plane, material)
-      let imgRatio = textbg.image.width / textbg.image.height
-      let planeRatio = plane.parameters.width / plane.parameters.height
-      textbg.wrapS = THREE.RepeatWrapping // THREE.ClampToEdgeWrapping;
-      textbg.repeat.x = planeRatio / imgRatio
-      textbg.offset.x = -0.5 * (planeRatio / imgRatio - 1)
+    if (textbg && frameMaterial) {
+      const plane = new PlaneGeometry(400, 400, 1)
+
+      material.transparent = true
+      const mesh = new Mesh(plane, frameMaterial)
+      // let imgRatio = textbg.image.width / textbg.image.height
+      // let planeRatio = plane.parameters.width / plane.parameters.height
+      // textbg.wrapS = THREE.RepeatWrapping // THREE.ClampToEdgeWrapping;
+      // textbg.repeat.x = planeRatio / imgRatio
+      // textbg.offset.x = -0.5 * (planeRatio / imgRatio - 1)
       plane.scale(-1, 1, 1)
-      mesh.position.set(0, 0, 100)
+      mesh.position.set(0, 0, -10)
       scene.add(mesh)
     }
-  }, [textbg])
+  }, [frameMaterial, material, textbg])
 
   useEffect(() => {
     if (!glyph) return
@@ -250,19 +257,14 @@ function SingleGlyph() {
       scene.remove(glyphMesh.current)
     }
     const g = ReactDOMServer.renderToString(glyph)
-    const { object } = renderSVG(defaultExtrusion, g)
+    const { object } = renderSVG(0.1, g)
     scene.add(object)
     camera.lookAt(0, 0, 0)
     object.scale.set(-1.5, -1.5, 1.5)
     object.position.set(20, 40, 0)
     glyphMesh.current = object
-    let clock = new Clock()
+
     const animate = () => {
-      // object.rotation.set(
-      //   object.rotation.x + Math.sin(clock.elapsedTime) / 500,
-      //   object.rotation.y + Math.cos(clock.elapsedTime) / 700,
-      //   0
-      // )
       requestAnimationFrame(animate)
     }
     animate()
@@ -293,7 +295,15 @@ function SingleGlyph() {
   }, [glassMaterial, matcapMaterial, material])
 
   useEffect(() => {
-    setTimeout(handleMaterial, 3000)
+    glyphMesh.current?.children.forEach((item: any) => {
+      if ('material' in item) {
+        item.material = new MeshBasicMaterial({ color: 'black' })
+      }
+    })
+  }, [glassMaterial])
+
+  useEffect(() => {
+    // setTimeout(handleMaterial, 3000)
   }, [handleMaterial])
 
   return (
@@ -314,7 +324,7 @@ function SingleGlyph() {
         <Button
           sx={{
             padding: 0,
-            color: '#ff0000',
+            color: '#000',
             fontWeight: '700',
             display: 'flex',
             alignItems: 'center',
@@ -330,7 +340,7 @@ function SingleGlyph() {
           <svg
             viewBox="0 0 296.75 200"
             width="40px"
-            style={{ marginTop: -10, transform: 'scaleX(-1)', fill: '#ff0000' }}
+            style={{ marginTop: -10, transform: 'scaleX(-1)' }}
           >
             <polygon points="296.75,149.188 215,98.875 215,132.375 0,132.375 0,165.375 215,165.375 215,197.875 " />
           </svg>
@@ -339,14 +349,14 @@ function SingleGlyph() {
       </Box>
       <Box
         left={'50%'}
-        bottom={{ xs: 60, md: 100 }}
+        bottom={{ xs: 40, md: 100 }}
         position="fixed"
         sx={{
           transform: 'translateX(-50%)',
           '& svg': {
             height: 100,
             width: 100,
-            fill: 'red'
+            fill: '#ff0000'
           }
         }}
       >

@@ -11,7 +11,7 @@ import { GlyphsList } from '../assets/glyphsList'
 import Transition from '../components/Transition'
 
 export const smCount = 4
-export const lgCount = 5
+export const lgCount = 8
 export const xlCount = 10
 
 interface TransitionContextType {
@@ -40,11 +40,11 @@ export const TransitionProvider = ({
   const getRepeatCount = useCallback(() => {
     let repeat = 1
 
-    if (window.innerHeight < 600) {
+    if (window.innerWidth < 600) {
       const itemWidth = window.innerWidth / smCount
       const verticalCount = Math.ceil(window.innerHeight / itemWidth)
       repeat = (verticalCount * smCount) / GlyphsList.length
-    } else if (window.innerHeight < 1200) {
+    } else if (window.innerWidth < 1200) {
       const itemWidth = window.innerWidth / lgCount
       const verticalCount = Math.ceil(window.innerHeight / itemWidth)
       repeat = (verticalCount * lgCount) / GlyphsList.length
