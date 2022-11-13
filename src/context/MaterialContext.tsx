@@ -23,17 +23,17 @@ const hdrEquirect = new RGBELoader().load(
 )
 
 const fillMaterial = new MeshPhysicalMaterial({
-  transmission: 0.9,
+  transmission: 0.6,
   roughness: 0.3,
-  reflectivity: 0.5,
+  reflectivity: 1,
   clearcoat: 1,
   clearcoatRoughness: 1,
   attenuationDistance: 1,
   ior: 1.7,
-  specularIntensity: 1,
-  envMap: hdrEquirect,
-  envMapIntensity: 1,
-  color: '#F3F3F3'
+  // specularIntensity: 1,
+  // envMap: hdrEquirect,
+  // envMapIntensity: 1,
+  color: '#F0F0F0'
 })
 
 interface MaterialContextType {

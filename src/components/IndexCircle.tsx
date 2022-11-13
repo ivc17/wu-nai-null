@@ -63,7 +63,7 @@ export default function IndexCircle({ selectedIdx }: { selectedIdx?: number }) {
       >
         <circle cx="20" cy="20" r="19" strokeDasharray={150} />
       </svg>
-      {selectedIdx ? selectedIdx + '' : 'NaN'}
+      {selectedIdx || selectedIdx === 0 ? selectedIdx + '' : 'NaN'}
     </Box>
   )
 }
