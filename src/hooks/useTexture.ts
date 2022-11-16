@@ -21,3 +21,16 @@ export default function useTexture( url: string ) {
 
   return texture
 }
+
+export function getTexture(url:string) {
+  const loader = new THREE.TextureLoader()
+  
+return  loader.load(
+    url,
+  undefined,
+    undefined,
+    function (err) {
+      console.error('CANNOT LOAD TEXTURE',err)
+    }
+  )
+}

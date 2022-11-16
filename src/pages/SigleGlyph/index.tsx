@@ -2,9 +2,7 @@ import { Box, Button, debounce, Typography } from '@mui/material'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader'
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
+
 import { GlyphsList } from '../../assets/glyphsList'
 import { withTransition } from '../../components/WithTransition'
 import { useTransition } from '../../context/TransitionContext'
@@ -18,125 +16,16 @@ import {
   DoubleSide,
   Mesh,
   MeshBasicMaterial,
-  PlaneGeometry,
-  Vector3
+  PlaneGeometry
 } from 'three'
 import useFont from '../../hooks/useFont'
 import IndexCircle from 'components/IndexCircle'
-import useBreakpoint from 'hooks/useBreakpoints'
-import { useMaterial } from 'context/MaterialContext'
 
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  2000
-)
-const scene = new THREE.Scene()
+import { fillMaterial, useMaterial } from 'context/MaterialContext'
+import { renderSVG } from 'utils/renderSvg'
+import { useCanvas } from 'context/CanvasContext'
 
-const defaultExtrusion = 5
-
-const fillMaterial = new THREE.MeshPhysicalMaterial({
-  color: '#F3FBFB',
-  opacity: 0
-})
-const stokeMaterial = new THREE.LineBasicMaterial({
-  color: 'red'
-})
-const hdrEquirect = new RGBELoader().load(
-  '/royal_esplanade_1k.hdr',
-  function () {
-    hdrEquirect.mapping = THREE.EquirectangularReflectionMapping
-    // scene.background = hdrEquirect
-  }
-)
-
-const renderSVG = (
-  extrusion: number,
-  svg: string,
-  material?: THREE.Material
-) => {
-  const loader = new SVGLoader()
-  const svgData = loader.parse(svg)
-  const svgGroup = new THREE.Group()
-  const updateMap: any[] = []
-
-  svgGroup.scale.y *= -1
-  svgGroup.scale.x *= -1
-  svgData.paths.forEach((path) => {
-    const shapes = SVGLoader.createShapes(path)
-    const randomPoints = []
-
-    for (let i = 0; i < 4; i++) {
-      randomPoints.push(
-        new THREE.Vector3(
-          (i - 4.5) * 50,
-          THREE.MathUtils.randFloat(-10, 10),
-          THREE.MathUtils.randFloat(-10, 10)
-        )
-      )
-    }
-
-    // const randomSpline = new THREE.CatmullRomCurve3(randomPoints)
-
-    shapes.forEach((shape) => {
-      const meshGeometry = new THREE.ExtrudeGeometry(shape, {
-        depth: extrusion,
-        bevelEnabled: extrusion === 0 ? false : true,
-        // extrudePath: extrusion === 0 ? undefined : randomSpline,
-        bevelThickness: 5,
-        bevelSize: 1,
-        bevelOffset: 0,
-        bevelSegments: 3
-      })
-
-      const linesGeometry = new THREE.EdgesGeometry(meshGeometry)
-      const mesh = new THREE.Mesh(meshGeometry, material ?? fillMaterial)
-
-      if (extrusion === 0) {
-        const lines = new THREE.LineSegments(linesGeometry, stokeMaterial)
-        updateMap.push({ shape, lines })
-        svgGroup.add(lines)
-      } else {
-        updateMap.push({ shape, mesh })
-        svgGroup.add(mesh)
-      }
-    })
-  })
-
-  const box = new THREE.Box3().setFromObject(svgGroup)
-
-  const size = box.getSize(new THREE.Vector3())
-  const yOffset = size.y / -2
-  const xOffset = size.x / -2
-
-  // Offset all of group's elements, to center them
-  svgGroup.children.forEach((item) => {
-    item.position.x = xOffset
-    item.position.y = yOffset
-  })
-  svgGroup.position.set(-xOffset / 2, -yOffset, 0)
-  // svgGroup.rotateX(-Math.PI / 20)
-
-  return {
-    object: svgGroup,
-    update(extrusion: number) {
-      updateMap.forEach((updateDetails) => {
-        const meshGeometry = new THREE.ExtrudeGeometry(updateDetails.shape, {
-          depth: extrusion,
-          bevelEnabled: false
-        })
-        const linesGeometry = new THREE.EdgesGeometry(meshGeometry)
-
-        updateDetails.mesh.geometry.dispose()
-        updateDetails.lines.geometry.dispose()
-        updateDetails.mesh.geometry = meshGeometry
-        updateDetails.lines.geometry = linesGeometry
-      })
-    }
-  }
-}
-
+const defaultExtrusion = 2
 function SingleGlyph() {
   const wrapper = useRef<HTMLDivElement>(null)
   const glyphMesh = useRef<THREE.Group>()
@@ -144,10 +33,12 @@ function SingleGlyph() {
   const { id } = useParams()
   const font = useFont('NOTHING NULL')
   const font2 = useFont('VOID EMPTY')
+  const font3 = useFont('NOTHING NULL')
+  const font4 = useFont('VOID EMPTY')
   const { glassMaterial, matcapMaterial } = useMaterial()
+  const { scene, camera, renderer } = useCanvas()
   const [material, setMaterial] = useState(glassMaterial)
 
-  const isDownSm = useBreakpoint('sm')
   const textbg = useTexture(textBgURL)
 
   const glyph = useMemo(() => {
@@ -155,72 +46,31 @@ function SingleGlyph() {
     return El ? <El /> : undefined
   }, [id])
 
-  //setup
   useEffect(() => {
     if (!wrapper.current) return
     const canvas = wrapper.current.querySelector('canvas')
     if (canvas) return
-    scene.background = new THREE.Color(0xffffff)
-
-    const renderer = new THREE.WebGLRenderer()
-    renderer.setSize(window.innerWidth, window.innerHeight)
     wrapper.current.appendChild(renderer.domElement)
-
-    const ambientLight = new THREE.AmbientLight('#ffffff')
-    const pointLight = new THREE.PointLight('#ffffff', 2, 800)
-    pointLight.lookAt(new Vector3(0, 0, 0))
-    const controls = new OrbitControls(camera, renderer.domElement)
-
-    scene.add(ambientLight, pointLight)
-    camera.position.z = -250
-    camera.position.x = 0
-    camera.position.y = 0
-    controls.enablePan = true
-
-    controls.minPolarAngle = 1.5507750139181867 // 1.5 * Math.PI / 12;
-    controls.maxPolarAngle = 1.5507750139181867 // 1.5 * Math.PI / 3;
-
-    controls.minAzimuthAngle = 2.841592653589793
-    controls.maxAzimuthAngle = 3.541592653589793
-
-    controls.enableDamping = true
-    // controls.autoRotate = true
-
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight
-      camera.updateProjectionMatrix()
-      renderer.setSize(window.innerWidth, window.innerHeight)
-    })
-
     const { object } = renderSVG(0, ReactDOMServer.renderToString(<Outline />))
-    object.position.set(0, 0, 200)
+    object.position.set(0, -20, 200)
     scene.add(object)
-    object.scale.set(-1.5, -1.5, 1.5)
-
-    const animate = () => {
-      renderer.render(scene, camera)
-      controls.update()
-      requestAnimationFrame(animate)
-    }
-    animate()
-  }, [])
+    object.scale.set(-1.2, -1.2, 1.2)
+  }, [renderer.domElement, scene])
 
   useEffect(() => {
-    if (font && font2) {
-      font.position.set(0, 250, 800)
+    if (font && font2 && font3 && font4) {
+      font.position.set(0, 290, 800)
       scene.add(font)
       font2.position.set(0, -380, 800)
       scene.add(font2)
+      font3.position.set(0, 290, -800)
+      font3.scale.setX(1)
+      scene.add(font3)
+      font4.position.set(0, -380, -800)
+      font4.scale.setX(1)
+      scene.add(font4)
     }
-  }, [font, font2])
-
-  useEffect(() => {
-    if (isDownSm) {
-      camera.zoom = 0.5
-    } else {
-      camera.zoom = 1
-    }
-  }, [isDownSm])
+  }, [font, font2, font3, font4, scene])
 
   useEffect(() => {
     if (textbg) {
@@ -240,7 +90,7 @@ function SingleGlyph() {
       textbg.offset.x = -0.5 * (planeRatio / imgRatio - 1)
       plane.scale(-1, 1, 1)
       mesh.position.set(0, 0, 100)
-      scene.add(mesh)
+      // scene.add(mesh)
     }
   }, [textbg])
 
@@ -256,25 +106,22 @@ function SingleGlyph() {
     object.scale.set(-1.5, -1.5, 1.5)
     object.position.set(20, 40, 0)
     glyphMesh.current = object
-    // let clock = new Clock()
-    const animate = () => {
-      // object.rotation.set(
-      //   object.rotation.x + Math.sin(clock.elapsedTime) / 500,
-      //   object.rotation.y + Math.cos(clock.elapsedTime) / 700,
-      //   0
-      // )
-      requestAnimationFrame(animate)
-    }
-    animate()
 
     return () => {
       scene.remove(object)
     }
-  }, [glyph])
+  }, [camera, glyph, scene])
 
   const handleMaterial = useMemo(() => {
     return debounce(() => {
-      if (material === matcapMaterial) {
+      if (material === fillMaterial) {
+        setMaterial(matcapMaterial)
+        glyphMesh.current?.children.forEach((item: any) => {
+          if ('material' in item) {
+            item.material = matcapMaterial
+          }
+        })
+      } else if (material === matcapMaterial) {
         setMaterial(glassMaterial)
         glyphMesh.current?.children.forEach((item: any) => {
           if ('material' in item) {
@@ -282,18 +129,19 @@ function SingleGlyph() {
           }
         })
       } else {
-        setMaterial(matcapMaterial)
+        setMaterial(fillMaterial)
         glyphMesh.current?.children.forEach((item: any) => {
           if ('material' in item) {
-            item.material = matcapMaterial
+            item.material = fillMaterial
           }
         })
       }
-    })
+    }, 300)
   }, [glassMaterial, matcapMaterial, material])
 
   useEffect(() => {
-    setTimeout(handleMaterial, 3000)
+    const id = setTimeout(handleMaterial, 5000)
+    return () => clearTimeout(id)
   }, [handleMaterial])
 
   return (
@@ -302,7 +150,14 @@ function SingleGlyph() {
       width="100vw"
       ref={wrapper}
       position="relative"
-      sx={{ '& canvas': { width: '100vw', height: '100vh', zIndex: -1 } }}
+      sx={{
+        '& canvas': {
+          width: '100vw',
+          height: '100vh',
+          zIndex: -1,
+          overflow: 'hidden'
+        }
+      }}
     >
       <Box position="fixed" top={20} right={20}>
         <Typography fontWeight={800} fontSize={{ xs: 30, sm: 40 }}>
@@ -339,28 +194,31 @@ function SingleGlyph() {
       </Box>
       <Box
         left={'50%'}
-        bottom={{ xs: 60, md: 100 }}
+        bottom={{ xs: 50, md: 100 }}
         position="fixed"
         sx={{
           transform: 'translateX(-50%)',
           '& svg': {
-            height: 100,
-            width: 100,
+            height: { xs: 40, sm: 100 },
+            width: { xs: 40, sm: 100 },
             fill: 'red'
           }
         }}
+        display="grid"
+        justifyItems={'center'}
       >
-        {glyph}
-        {/* <Button
+        <Button
           sx={{
             fontWeight: 700,
             color: '#ff0000',
-            fontSize: 30
+            fontSize: { xs: 16, sm: 20 },
+            whiteSpace: 'nowrap'
           }}
           onClick={handleMaterial}
         >
           CHANGE MATERIAL
-        </Button> */}
+        </Button>
+        <Box> {glyph}</Box>
         {/*<Button
           sx={{
             fontWeight: 700,

@@ -17,7 +17,7 @@ export default function useFont(message: string) {
 
     const loader = new FontLoader();
     loader.load(
-      '/font/test11.typeface.json',
+      process.env.PUBLIC_URL+'/font/test11.typeface.json',
       function (f) {
         setFont(f)
         },
@@ -44,7 +44,7 @@ export default function useFont(message: string) {
 
   const text = new THREE.Mesh( geometry, matLite );
   // text.position.z = - 150;
-   text.scale.set(-1.5,1.5,1.5)
+   text.scale.set(-1.2,1.2,1.2)
    text.position.set(0, 0, 0)
    
    return text

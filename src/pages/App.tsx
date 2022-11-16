@@ -1,4 +1,5 @@
 import Layout from 'components/Layout'
+import { CanvasProvider } from 'context/CanvasContext'
 import { MaterialProvider } from 'context/MaterialContext'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { TransitionProvider } from '../context/TransitionContext'
@@ -12,15 +13,17 @@ function App() {
       <Layout />
 
       <MaterialProvider>
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-          <TransitionProvider>
-            <Routes>
-              <Route path="/characters/:id" element={<SingleGlyph />} />
-              <Route path="/characters" element={<All />}></Route>
-              <Route path="*" element={<Home />} />
-            </Routes>
-          </TransitionProvider>
-        </BrowserRouter>
+        <CanvasProvider>
+          <BrowserRouter basename={process.env.PUBLIC_URL}>
+            <TransitionProvider>
+              <Routes>
+                <Route path="/characters/:id" element={<SingleGlyph />} />
+                <Route path="/characters" element={<All />}></Route>
+                <Route path="*" element={<Home />} />
+              </Routes>
+            </TransitionProvider>
+          </BrowserRouter>
+        </CanvasProvider>
       </MaterialProvider>
     </>
   )
