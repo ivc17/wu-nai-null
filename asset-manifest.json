@@ -1,8 +1,9 @@
 {
   "files": {
     "main.css": "/wu-nai-null/static/css/main.0b9705c4.css",
-    "main.js": "/wu-nai-null/static/js/main.0b806a1b.js",
+    "main.js": "/wu-nai-null/static/js/main.fb06be2f.js",
     "static/js/787.26aa0d3e.chunk.js": "/wu-nai-null/static/js/787.26aa0d3e.chunk.js",
+    "static/media/normal2.jpeg": "/wu-nai-null/static/media/normal2.7dc4a1c26aeaec81f068.jpeg",
     "static/media/Bentball.png": "/wu-nai-null/static/media/Bentball.38c4a5184c74be01b74c.png",
     "static/media/red.png": "/wu-nai-null/static/media/red.1ecfeb8542053a6ec981.png",
     "static/media/frame.jpeg": "/wu-nai-null/static/media/frame.bb75ce2bbedfa59b3d08.jpeg",
@@ -16,11 +17,11 @@
     "static/media/icon.svg": "/wu-nai-null/static/media/icon.df36b393c5aec177ad5d92e5cf9a15e0.svg",
     "index.html": "/wu-nai-null/index.html",
     "main.0b9705c4.css.map": "/wu-nai-null/static/css/main.0b9705c4.css.map",
-    "main.0b806a1b.js.map": "/wu-nai-null/static/js/main.0b806a1b.js.map",
+    "main.fb06be2f.js.map": "/wu-nai-null/static/js/main.fb06be2f.js.map",
     "787.26aa0d3e.chunk.js.map": "/wu-nai-null/static/js/787.26aa0d3e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0b9705c4.css",
-    "static/js/main.0b806a1b.js"
+    "static/js/main.fb06be2f.js"
   ]
 }
