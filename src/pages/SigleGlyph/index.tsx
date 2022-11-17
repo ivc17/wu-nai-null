@@ -189,7 +189,27 @@ function SingleGlyph() {
           >
             <polygon points="296.75,149.188 215,98.875 215,132.375 0,132.375 0,165.375 215,165.375 215,197.875 " />
           </svg>
-          BACK
+          BACK to Home
+        </Button>
+      </Box>
+      <Box position="fixed" top={{ xs: 150, sm: 200 }} right={20}>
+        <Button
+          sx={{
+            padding: 0,
+            color: '#ff0000',
+            fontWeight: '700',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px',
+            whiteSpace: 'nowrap',
+
+            fontSize: { xs: 16, sm: 24 }
+          }}
+          onClick={() => {
+            wrappedNavigate('/characters')
+          }}
+        >
+          List of all
         </Button>
       </Box>
       <Box
@@ -217,21 +237,12 @@ function SingleGlyph() {
             }}
             onClick={handleMaterial}
           >
-            CHANGE Background
-          </Button>{' '}
-          <Button
-            sx={{
-              fontWeight: 700,
-              color: '#ff0000',
-              fontSize: { xs: 16, sm: 20 },
-              whiteSpace: 'nowrap'
-            }}
-            onClick={handleMaterial}
-          >
             CHANGE Material
           </Button>
         </Box>
-
+        <Typography fontSize={12} whiteSpace="nowrap" fontWeight={700}>
+          Scroll/Drag/Tap to zoom or move around
+        </Typography>
         <Box> {glyph}</Box>
         {/*<Button
           sx={{

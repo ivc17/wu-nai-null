@@ -64,9 +64,9 @@ export const CanvasProvider = ({ children }: { children: React.ReactNode }) => {
     controls.autoRotate = true
     controls.autoRotateSpeed = -0.3
 
-    const id = setInterval(() => {
-      controls.autoRotateSpeed *= -1
-    }, 15000)
+    // const id = setInterval(() => {
+    //   controls.autoRotateSpeed *= -1
+    // }, 15000)
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight
@@ -81,7 +81,7 @@ export const CanvasProvider = ({ children }: { children: React.ReactNode }) => {
     }
     animate()
 
-    return () => clearInterval(id)
+    // return () => clearInterval(id)
   }, [hdrEquirect])
 
   const val = useMemo(() => {

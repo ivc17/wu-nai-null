@@ -5,7 +5,7 @@ import { ReactComponent as Cult } from './svg/cult.svg'
 
 import { ReactComponent as Ink } from './svg/ink.svg'
 
-import { ReactComponent as Rope } from './svg/seed.svg'
+import { ReactComponent as Rope } from './svg/rope.svg'
 import { ReactComponent as Seed } from './svg/seed.svg'
 
 

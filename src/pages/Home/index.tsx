@@ -34,7 +34,7 @@ function Home() {
       })
     })
     tl.current = timeline
-    timeline.delay(1.5)
+    timeline.delay(1)
     timeline.play()
   }, [tl])
 
@@ -72,6 +72,24 @@ function Home() {
           無 ない NULL
         </Typography>
         <IndexCircle selectedIdx={selectedIdx} />
+
+        <Button
+          variant="text"
+          sx={{
+            fontWeight: 900,
+            underline: 'none',
+            color: '#ff0000',
+            zIndex: 1301,
+            float: 'right',
+            mt: '10px'
+          }}
+          onClick={(e) => {
+            e.preventDefault()
+            wrappedNavigate('/characters')
+          }}
+        >
+          List of all
+        </Button>
       </Box>
       <Box
         margin="auto auto"
