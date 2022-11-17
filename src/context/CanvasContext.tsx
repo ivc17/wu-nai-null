@@ -62,7 +62,7 @@ export const CanvasProvider = ({ children }: { children: React.ReactNode }) => {
 
     controls.enableDamping = true
     controls.autoRotate = true
-    controls.autoRotateSpeed = -0.1
+    controls.autoRotateSpeed = -0.3
 
     const id = setInterval(() => {
       controls.autoRotateSpeed *= -1

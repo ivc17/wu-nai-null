@@ -207,17 +207,31 @@ function SingleGlyph() {
         display="grid"
         justifyItems={'center'}
       >
-        <Button
-          sx={{
-            fontWeight: 700,
-            color: '#ff0000',
-            fontSize: { xs: 16, sm: 20 },
-            whiteSpace: 'nowrap'
-          }}
-          onClick={handleMaterial}
-        >
-          CHANGE MATERIAL
-        </Button>
+        <Box display="flex" gap={10}>
+          <Button
+            sx={{
+              fontWeight: 700,
+              color: '#ff0000',
+              fontSize: { xs: 16, sm: 20 },
+              whiteSpace: 'nowrap'
+            }}
+            onClick={handleMaterial}
+          >
+            CHANGE Background
+          </Button>{' '}
+          <Button
+            sx={{
+              fontWeight: 700,
+              color: '#ff0000',
+              fontSize: { xs: 16, sm: 20 },
+              whiteSpace: 'nowrap'
+            }}
+            onClick={handleMaterial}
+          >
+            CHANGE Material
+          </Button>
+        </Box>
+
         <Box> {glyph}</Box>
         {/*<Button
           sx={{
