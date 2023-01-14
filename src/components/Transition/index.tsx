@@ -74,7 +74,9 @@ export default function Transition({
                   key={'' + i + j}
                   sx={{
                     '& svg': {
-                      fill: '#ff0000'
+                      fill: '#ff0000',
+                      height: '100%',
+                      width: '100%'
                     },
                     background: '#ffffff',
                     height: 'max-content',

@@ -144,6 +144,16 @@ function SingleGlyph() {
     return () => clearTimeout(id)
   }, [handleMaterial])
 
+  const nextId = useMemo(() => {
+    if (!id) return 0
+    const length = GlyphsList.length
+    if (+id < length - 1) {
+      return +id + 1
+    } else if (+id === length) {
+      return 0
+    }
+  }, [id])
+
   return (
     <Box
       height="100vh"
@@ -165,7 +175,7 @@ function SingleGlyph() {
         </Typography>
         <IndexCircle selectedIdx={id ? +id : undefined} />
       </Box>
-      <Box position="fixed" top={{ xs: 90, sm: 150 }} left={20}>
+      <Box position="fixed" top={{ xs: 80, sm: 100 }} left={20}>
         <Button
           sx={{
             padding: 0,
@@ -176,7 +186,7 @@ function SingleGlyph() {
             gap: '5px',
             whiteSpace: 'nowrap',
 
-            fontSize: { xs: 16, sm: 24 }
+            fontSize: { xs: 12, sm: 18 }
           }}
           onClick={() => {
             wrappedNavigate('/')
@@ -184,12 +194,12 @@ function SingleGlyph() {
         >
           <svg
             viewBox="0 0 296.75 200"
-            width="40px"
+            width="30px"
             style={{ marginTop: -10, transform: 'scaleX(-1)', fill: '#ff0000' }}
           >
             <polygon points="296.75,149.188 215,98.875 215,132.375 0,132.375 0,165.375 215,165.375 215,197.875 " />
           </svg>
-          BACK to Home
+          <span>BACK to Home</span>
         </Button>
       </Box>
       <Box position="fixed" top={{ xs: 150, sm: 200 }} right={20}>
@@ -213,14 +223,42 @@ function SingleGlyph() {
         </Button>
       </Box>
       <Box
+        position="fixed"
+        top={'50%'}
+        left={0}
+        width="100%"
+        display="flex"
+        justifyContent={'space-between'}
+      >
+        <span />
+        <Button
+          sx={{
+            padding: 0,
+            color: '#ff0000',
+            fontWeight: '700',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px',
+            whiteSpace: 'nowrap',
+
+            fontSize: { xs: 16, sm: 24 }
+          }}
+          onClick={() => {
+            wrappedNavigate('/characters/' + nextId)
+          }}
+        >
+          NEXT
+        </Button>
+      </Box>
+      <Box
         left={'50%'}
         bottom={{ xs: 50, md: 100 }}
         position="fixed"
         sx={{
           transform: 'translateX(-50%)',
           '& svg': {
-            height: { xs: 40, sm: 100 },
-            width: { xs: 40, sm: 100 },
+            height: { xs: 30, sm: 60 },
+            width: { xs: 30, sm: 60 },
             fill: 'red'
           }
         }}

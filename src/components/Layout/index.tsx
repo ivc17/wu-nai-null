@@ -15,7 +15,7 @@ export default function Layout() {
           left={20}
           padding={{
             xs: '24px 15px 17px',
-            sm: '30px'
+            sm: '22px'
           }}
           sx={{
             zIndex: 1301,

@@ -8,7 +8,7 @@ function All() {
   const { wrappedNavigate } = useTransition()
   return (
     <Box height={'100vh'} overflow="auto" width="100vw" padding="150px 40px">
-      <Box position="fixed" top={{ xs: 90, sm: 150 }} left={20}>
+      <Box position="fixed" top={{ xs: 80, sm: 100 }} left={20}>
         <Button
           sx={{
             padding: 0,
@@ -19,7 +19,7 @@ function All() {
             gap: '5px',
             whiteSpace: 'nowrap',
 
-            fontSize: { xs: 16, sm: 24 }
+            fontSize: { xs: 12, sm: 18 }
           }}
           onClick={() => {
             wrappedNavigate('/')
@@ -27,12 +27,12 @@ function All() {
         >
           <svg
             viewBox="0 0 296.75 200"
-            width="40px"
+            width="30px"
             style={{ marginTop: -10, transform: 'scaleX(-1)', fill: '#ff0000' }}
           >
             <polygon points="296.75,149.188 215,98.875 215,132.375 0,132.375 0,165.375 215,165.375 215,197.875 " />
           </svg>
-          BACK to Home
+          <span>BACK to Home</span>
         </Button>
       </Box>
       <Typography
